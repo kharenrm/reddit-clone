@@ -1,0 +1,50 @@
+<link rel="import" href="./bower_components/polymer/polymer.html">
+<link rel="import" href="./reddit-clone-dp.html">
+<dom-module id="reddit-clone-dm">
+    <template>
+        <style></style>
+        <reddit-clone-dp id="cloneDp"></reddit-clone-dp>
+    </template>
+    <script>
+    Polymer({
+        is: 'reddit-clone-dm',
+        properties: {
+            origen: {
+                type: String,
+                value: ''
+            },
+            evento: {
+                type: String,
+                computed: '_fireEvent(origen)'
+            }
+        },
+        listeners: {
+            'data-dp-event': 'formatData'
+        },
+        getData: function(origin) {
+            this.origen = origin;
+            this.$.cloneDp.fetch();
+        },
+        formatData: function(data) {
+            var datos = data.detail.children;
+            var datosFormat = datos.map((dato) => {
+                var fila = {};
+                fila.author = dato.data.author;
+                fila.title = dato.data.title;
+                fila.thumbnail = this.validateImg(dato.data.thumbnail);
+                fila.url = dato.data.url;
+                return fila;
+            });
+            this.fire(this.evento, datosFormat);
+
+
+        },
+        validateImg: function(img) {
+            return !img.includes('http') ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIIwX1r830ganeuSAxN4_jd4WS5X8ybHWFxsJcU0LB1fszzOz9' : img;
+        },
+        _fireEvent: function(origen) {
+            return origen == 'attached' ? 'format-data-event' : 'format-data-load-event';
+        }
+    });
+    </script>
+</dom-module>

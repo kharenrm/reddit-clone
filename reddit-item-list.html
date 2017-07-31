@@ -1,0 +1,61 @@
+<link rel="import" href="./bower_components/polymer/polymer.html">
+<link rel="import" href="./reddit-item.html">
+<dom-module id="reddit-item-list">
+    <template>
+        <style include="reddit-item-list-shared-style">
+        .items {
+            overflow: scroll;
+            height: 300px;
+            @apply(--reddit-item-list-items)
+        }
+
+        .buscador {
+            padding: 8px;
+            @apply(--reddit-item-list-buscador)
+        }
+
+        .campo_buscador {
+            border-radius: 4px;
+            width: 50%;
+            height: 16px;
+            @apply(--reddit-item-list-campo)
+        }
+        </style>
+        <div class="container-list">
+            <div class="buscador">
+                <input id="busqueda" class="campo_buscador" value="{{searchString::input}}" placeholder="Busqueda">
+            </div>
+            <div class="items">
+                <template id="noticias" is="dom-repeat" items={{noticias}} as="noticia" filter="{{_filterSearch(searchString)}}">
+                    <reddit-item titulo="[[noticia.title]]" autor="[[noticia.author]]" on-tap="_getNoticia"></reddit-item>
+                </template>
+            </div>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'reddit-item-list',
+        properties: {
+            noticias: {
+                type: Array,
+                value: function() {
+                    return [];
+                }
+            }
+        },
+        _filterSearch: function(criterio) {
+            var criterio = criterio.toLowerCase();
+            return function(noticia) {
+                var title = noticia.title.toLowerCase();
+                var author = noticia.title.toLowerCase();
+                return title.includes(criterio) || author.includes(criterio);
+            };
+        },
+        _getNoticia: function(event) {
+            var noticia = this.$.noticias.itemForElement(event.target);
+            this.fire('get-notice-event', noticia);
+        }
+
+    });
+    </script>
+</dom-module>

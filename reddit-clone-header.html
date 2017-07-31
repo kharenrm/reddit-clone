@@ -1,0 +1,43 @@
+<link rel="import" href="./bower_components/polymer/polymer.html">
+<dom-module id="reddit-clone-header">
+    <template>
+        <style include="reddit-clone-header-shared-style">
+        :host{
+            color: blue;
+            background-color: purple;
+        }
+        .titulo{
+            margin: 0;
+            font-size: var(--font-size-primary, 40px);
+            @apply(--reddit-clone-header-titulo)
+        }
+        .detalle{
+            margin-top: 8px;
+            @apply(--reddit-clone-header-detalle)
+        }
+        </style>
+        <div>
+            <h1 class="titulo">{{titulo}}</h1>
+            <p class="detalle">Total de noticias para hoy: {{totalNoticias}}</p>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'reddit-clone-header',
+        properties: {
+            titulo: {
+                type: String,
+                value: 'Reddit'
+            },
+            totalNoticias: {
+                type: Number,
+                value: 0
+            }
+        }/*,
+        _press: function(e) {
+            var criterio = e.target.value;
+            this.fire('trigger-data-consult', criterio);
+        }*/
+    });
+    </script>
+</dom-module>

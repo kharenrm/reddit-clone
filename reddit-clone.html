@@ -1,0 +1,116 @@
+<link rel="import" href="./bower_components/polymer/polymer.html">
+<link rel="import" href="./reddit-clone-dm.html">
+<link rel="import" href="./reddit-item-list.html">
+<link rel="import" href="./reddit-selected-item.html">
+<link rel="import" href="./reddit-clone-header.html">
+<link rel="import" href="./reddit-clone-actions.html">
+<link rel="import" href="./reddit-lightbox.html">
+<dom-module id="reddit-clone">
+    <template>
+        <style is="custom-style" include="reddit-clone-shared-style">
+         :root {
+            --color-one: #f3f1e1;
+            --font-size-primary: 40px;
+            --font-size-secondary: 30px;
+            --title-primary: {
+                font-family: sans-serif;
+            }
+        }
+
+        .reddit-container {
+            background-color: var(--color-one);
+            height: 100%;
+        }
+
+        .header{
+            @apply --title-primary
+        }
+
+        #selectedItem {
+            display: none;
+        }
+
+        .izquierda {
+            position: relative;
+            width: 30%;
+            float: left;
+        }
+
+        .derecha {
+            height: 650px;
+        }
+
+        .lista {
+            --reddit-item-list-items: {
+                height: 550px;
+            }
+        }        
+        </style>
+        <div class="reddit-container">
+            <div class="arriba">
+                <reddit-clone-dm id="cloneDM"></reddit-clone-dm>
+                <reddit-clone-header class="header" total-noticias="[[totalNoticias]]"></reddit-clone-header>
+                <reddit-clone-actions></reddit-clone-actions>
+            </div>
+            <div class="izquierda">
+                <reddit-item-list class="lista" noticias="[[noticias]]"></reddit-item-list>
+            </div>
+            <div class="derecha">
+                <reddit-selected-item id="selectedItem" noticia="[[noticia]]"></reddit-selected-item>
+            </div>
+            <reddit-lightbox id="lightbox"></reddit-lightbox>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'reddit-clone',
+        properties: {
+            noticias: {
+                type: Array,
+                value: function() {
+                    return [];
+                }
+            },
+            noticia: {
+                type: Object,
+                value: {}
+            },
+            totalNoticias: {
+                type: Number,
+                computed: '_noticeLength(noticias)'
+            }
+        },
+        listeners: {
+            'format-data-event': '_printData',
+            'get-notice-event': '_noticeSelected',
+            'refresh-button-event': 'attached',
+            'reload-button-event': '_addElements',
+            'format-data-load-event': '_loadData'
+        },
+        attached: function() {
+            this.$.selectedItem.style.display = "none";
+            this.$.lightbox.mostrar();
+            this.$.cloneDM.getData('attached');
+        },
+        _printData: function(datos) {
+            this.noticias = datos.detail;
+            this.$.lightbox.ocultar();
+        },
+        _noticeSelected: function(noticia) {
+            this.noticia = noticia.detail;
+            this.$.selectedItem.style.display = "block";
+        },
+        _noticeLength: function(noticias) {
+            return noticias.length;
+        },
+        _addElements: function() {
+            this.$.lightbox.mostrar();
+            this.$.cloneDM.getData('reload');
+        },
+        _loadData: function(datos) {
+            this.noticias = this.noticias.concat(datos.detail);
+            this.$.lightbox.ocultar();
+        }
+    });
+    </script>
+</dom-module>

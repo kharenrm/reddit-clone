@@ -1,0 +1,11 @@
+/*var datosFormat = [];
+    			
+    			for (var i = 0; i < datos.length; i++) {
+    				var fila = {};
+    				fila.author = datos[i].data.author;
+    				fila.title = datos[i].data.title;
+    				fila.thumbnail = datos[i].data.thumbnail;
+    				fila.url = datos[i].data.url;
+    				datosFormat.push(fila);
+    			}
+    			console.log(datosFormat);*/

@@ -1,0 +1,39 @@
+<link rel="import" href="./bower_components/polymer/polymer.html">
+<dom-module id="reddit-clone-actions">
+    <template>
+        <style include="reddit-clone-actions-shared-style">
+        .actions-container {
+            padding: 8px;
+            @apply(--reddit-clone-actions-container)
+        }
+
+        .btn {
+            width: 10%;
+            height: 30px;
+            background: burlywood;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            @apply(--reddit-clone-actions-btn)
+        }
+        </style>
+        <div class="actions-container">
+            <button class="btn" on-tap="_refresh">Actualizar</button>
+            <button class="btn" on-tap="_reload">Más elementos</button>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'reddit-clone-actions',
+        properties: {
+
+        },
+        _refresh: function() {
+            this.fire('refresh-button-event', 'refresh');
+        },
+        _reload: function() {
+            this.fire('reload-button-event', 'reload');
+        }
+    });
+    </script>
+</dom-module>
