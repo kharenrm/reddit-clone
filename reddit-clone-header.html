@@ -3,8 +3,8 @@
     <template>
         <style include="reddit-clone-header-shared-style">
         :host{
-            color: blue;
-            background-color: purple;
+            display: block;
+            color: #0000ff;
         }
         .titulo{
             margin: 0;
@@ -17,8 +17,8 @@
         }
         </style>
         <div>
-            <h1 class="titulo">{{titulo}}</h1>
-            <p class="detalle">Total de noticias para hoy: {{totalNoticias}}</p>
+            <h1 class="titulo">[[titulo]]</h1>
+            <p class="detalle">Total de noticias para hoy: [[totalNoticias]]</p>
         </div>
     </template>
     <script>
@@ -33,11 +33,7 @@
                 type: Number,
                 value: 0
             }
-        }/*,
-        _press: function(e) {
-            var criterio = e.target.value;
-            this.fire('trigger-data-consult', criterio);
-        }*/
+        }
     });
     </script>
 </dom-module>
